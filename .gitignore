@@ -1,7 +1,80 @@
-# Ignore build artifacts
+# Dilithium Project - Git Ignore File
+
+# Build artifacts
 *.o
+*.a
+*.so
 *.exe
+*.out
+*.app
+
+# Compiled binaries
+src/test/test_*
+test_speed*
+test_dilithium*
+test_vectors*
+test_mul
+nistkat/PQCgenKAT_sign*
+
+# Backup files
+*.backup
+*.bak
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Benchmark results (large files, regenerate on each system)
+results/
+graphs/
+*.txt
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
 build/
 
-# Ignore unnecessary directories
-PQClean-master/
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-*
+.project
+.cproject
+.settings/
+
+# OS specific
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Documentation build artifacts
+docs/_build/
+*.pdf
+*.aux
+*.synctex.gz
+
+# Keep structure but ignore content
+!results/.gitkeep
+!graphs/.gitkeep
+
+# LaTeX generated files (keep source .tex, ignore build artifacts)
+*.aux
+*.log
+*.out
+*.toc
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+
+# Configuration backups
+config.h.backup
