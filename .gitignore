@@ -1,80 +1,309 @@
-# Dilithium Project - Git Ignore File
-
-# Build artifacts
+# ===== Compiled Files =====
+# Object files
 *.o
+*.ko
+*.obj
+*.elf
+
+# Libraries
+*.lib
 *.a
+*.la
+*.lo
 *.so
+*.so.*
+*.dylib
+
+# Executables
 *.exe
 *.out
 *.app
+*.i*86
+*.x86_64
+*.hex
 
-# Compiled binaries
-src/test/test_*
-test_speed*
-test_dilithium*
-test_vectors*
-test_mul
-nistkat/PQCgenKAT_sign*
+# ===== KYBER Specific Executables =====
+# Test binaries
+kyber/ref/test_speed*
+kyber/ref/test_kyber*
+kyber/ref/test_kex*
+kyber/ref/test_vectors*
+kyber/ref/speed
+kyber/ref/PQCgenKAT_kem*
 
-# Backup files
-*.backup
-*.bak
-*.swp
-*.swo
-*~
-.DS_Store
+# CLI test binaries
+cli-tests/kyber_keygen
+cli-tests/kyber_encrypt
+cli-tests/kyber_decrypt
+cli-tests/kyber_demo
+cli-tests/test_kyber
 
-# Benchmark results (large files, regenerate on each system)
-results/
-graphs/
-*.txt
-*.log
+# ===== DILITHIUM Specific Executables =====
+# Test binaries
+dilithium/test/test_dilithium
+dilithium/test/test_dilithium2
+dilithium/test/test_dilithium3
+dilithium/test/test_dilithium5
+dilithium/test/test_vectors
+dilithium/test/test_vectors2
+dilithium/test/test_vectors3
+dilithium/test/test_vectors5
+dilithium/test/test_tweaked
+dilithium/test/speed
+dilithium/nistkat/PQCgenKAT_sign
 
-# Python cache
+# Benchmark executables
+benchmarks/benchmark_baseline
+benchmarks/benchmark_option1
+benchmarks/benchmark_option2
+benchmarks/benchmark_comprehensive
+benchmarks/benchmark_tweaked
+
+# CLI executables
+cli-tests/cli_keygen
+cli-tests/cli_keygen_simple
+cli-tests/cli_sign
+cli-tests/cli_sign_baseline
+cli-tests/cli_sign_option1
+cli-tests/cli_sign_option2
+cli-tests/cli_verify
+cli-tests/cli_verify_option1
+cli-tests/cli_verify_option2
+cli-tests/cli_compare
+cli-tests/cli_benchmark_detailed
+
+# ===== Generated Results & Output =====
+# Kyber benchmark results
+benchmarks/results/run_*/
+benchmarks/results/quick_*/
+
+# General benchmark results
+benchmarks/results_*.txt
+benchmarks/benchmark_*.csv
+benchmarks/*.log
+
+# CLI test output
+cli-tests/output/keys/*
+cli-tests/output/signatures/*
+cli-tests/output/benchmarks/*
+cli-tests/output/reports/*
+!cli-tests/output/keys/.gitkeep
+!cli-tests/output/signatures/.gitkeep
+!cli-tests/output/benchmarks/.gitkeep
+!cli-tests/output/reports/.gitkeep
+
+# Test data
+cli-tests/test_data/messages/demo_msg.txt
+cli-tests/test_data/messages/temp_*.txt
+
+# Kyber specific test results
+cli-tests/test_results/
+cli-tests/examples/
+cli-tests/*.bin
+cli-tests/*.pub
+cli-tests/*.sec
+cli-tests/shared_secret.bin
+cli-tests/ciphertext.bin
+cli-tests/decrypted_secret.bin
+
+# Keys and signatures
+*.pk
+*.sk
+*.sig
+
+# ===== Security Analysis Results =====
+# Static security analysis
+kyber-security-analysis/results/*.txt
+kyber-security-analysis/results/plots/*.png
+kyber-security-analysis/results/plots/*.pdf
+
+# Dynamic security analysis
+kyber-dynamic-security-analysis/results/
+kyber-dynamic-security-analysis/estimator/lattice-estimator/
+
+# ===== Demo Logs and Reports =====
+
+# Master demo outputs
+master_demo_*.log
+combined_results_*.txt
+
+demo_*.log
+thesis_results_*.txt
+final_report_*.txt
+
+# ===== Python =====
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
 .Python
-*.egg-info/
-dist/
-build/
+pip-log.txt
+pip-delete-this-directory.txt
 
-# IDE and editor files
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+.env
+virtualenv/
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# ===== SageMath =====
+*.sage.py
+*.sage-backup
+.sage/
+
+# ===== IDE and Editors =====
 .vscode/
 .idea/
 *.sublime-*
 .project
 .cproject
 .settings/
+*.swp
+*.swo
+*~
 
-# OS specific
+# ===== Build & Dependencies =====
+build/
+cmake-build-*/
+out/
+dist/
+*.egg-info/
+.depend
+*.d
+
+# ===== Temporary Files =====
+*.tmp
+*.temp
+temp.*
+tmp/
+.tmp/
+*.bak
+*.backup
+
+# ===== System Files =====
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
 Thumbs.db
+ehthumbs.db
 Desktop.ini
 
-# Temporary files
-tmp/
-temp/
-*.tmp
+# Linux
+.directory
+.Trash-*
 
-# Documentation build artifacts
-docs/_build/
-*.pdf
+# ===== Profiling & Coverage =====
+*.gcda
+*.gcno
+*.gcov
+gmon.out
+perf.data
+perf.data.old
+coverage/
+.coverage
+*.valgrind
+callgrind.out.*
+*.bench
+*.perf
+
+# ===== Documentation =====
+# LaTeX
 *.aux
-*.synctex.gz
-
-# Keep structure but ignore content
-!results/.gitkeep
-!graphs/.gitkeep
-
-# LaTeX generated files (keep source .tex, ignore build artifacts)
-*.aux
-*.log
+*.lof
+*.lot
+*.fls
 *.out
 *.toc
-*.fdb_latexmk
-*.fls
-*.synctex.gz
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+*.pdf
+!docs/*.pdf
 
-# Configuration backups
-config.h.backup
+# ===== Archives =====
+*.tar
+*.tar.gz
+*.zip
+*.7z
+
+# ===== Core Dumps =====
+core
+core.*
+vgcore.*
+
+# ===== NIST KAT =====
+*.rsp
+*.req
+
+# ===== Local Configuration =====
+.env
+.env.local
+config.local
+local_config.h
+
+# ===== Modified params.h =====
+# This is copied from configs
+kyber/ref/params.h
+dilithium/ref/params.h
+
+# ===== IMPORTANT: Files to Keep =====
+# Don't ignore source files
+!*.c
+!*.h
+!*.s
+!*.S
+
+# Don't ignore scripts
+!*.sh
+!*.py
+!*.sage
+
+# Don't ignore Makefiles
+!Makefile
+!Makefile.*
+!makefile
+
+# Don't ignore documentation
+!*.md
+!*.txt
+!README*
+!LICENSE*
+!*.html
+
+# Don't ignore configuration templates
+!kyber/ref/configs/*.h
+!dilithium/ref/configs/*.h
+
+# Don't ignore benchmark and test scripts
+!benchmarks/*.py
+!benchmarks/*.sh
+!cli-tests/scripts/*.sh
+!cli-tests/src/*.c
+
+# Don't ignore security analysis scripts
+!kyber-security-analysis/scripts/*.py
+!kyber-security-analysis/*.sh
+!kyber-dynamic-security-analysis/scripts/*.py
+!kyber-dynamic-security-analysis/sage-scripts/*.sage
+!kyber-dynamic-security-analysis/*.sh
+
+# Don't ignore the main demo scripts
+!final_demo.sh
+!run_demo.sh
+!run_all_tests.sh
+
+# ===== Special Exceptions =====
+# Keep .gitkeep files for directory structure
+!.gitkeep
+!*/.gitkeep
