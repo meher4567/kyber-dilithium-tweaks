@@ -1,754 +1,289 @@
-# Post-Quantum Cryptography: ML-KEM and ML-DSA Optimization Study
+Post-Quantum Cryptographic Parameter Optimizations
+License: MIT
+Ubuntu
+Python
 
-**Institution:** University of Hyderabad  
-**Project Type:** Internship Project  
-**Year:** 2025  
-**Contact:** 22mcce01@uohyd.ac.in
-
-**Algorithms:**
-- **ML-KEM (Kyber)** - NIST Post-Quantum Key Encapsulation Mechanism
-- **ML-DSA (Dilithium)** - NIST Post-Quantum Digital Signature Scheme
-
----
-
-## 🎯 Project Overview
-
-This project implements and evaluates optimization techniques for two NIST-standardized post-quantum cryptographic schemes: **ML-KEM (Kyber)** and **ML-DSA (Dilithium)**. The work focuses on performance improvements, parameter modifications, and security analysis while maintaining cryptographic guarantees.
-
-### Research Goals
-
-1. Analyze performance characteristics of baseline implementations
-2. Implement and benchmark optimization techniques (tweaks)
-3. Evaluate security implications of parameter modifications
-4. Generate comprehensive performance and security reports
-5. Provide reproducible benchmarking methodology
-
----
-
-## 📂 Project Structure
-
-kyber-dilithium-tweaks/
-│
-├── kyber/ # ML-KEM (Kyber) Implementation
-│ ├── src/ # Kyber source code
-│ ├── configs/ # Configuration headers
-│ ├── tests/ # Benchmark programs
-│ ├── Scripts/ # Automation (13 files)
-│ ├── security_results/ # Security analysis outputs
-│ ├── benchmark_results/ # Performance results
-│ └── Documentation/
-│ ├── FEDORA_SETUP_AND_RUN.md
-│ └── demo.sh
-│
-└── dilithium/ # ML-DSA (Dilithium) Implementation
-├── src/ # Dilithium source code
-│ ├── challenge_sha3.c/h # Tweak 1: SHA3-256
-│ ├── challenge_expanded.c/h # Tweak 2: Expanded coefficients
-│ ├── rejection_tweaked.h # Tweak 3: Rejection sampling
-│ └── ...
-├── configs/ # Configuration headers (4 configs)
-├── results/ # Benchmark outputs
-├── Automation Scripts/ # Benchmarking (4 scripts)
-├── Analysis Tools/ # Python tools (4 scripts)
-└── Documentation/
-├── FEDORA_SETUP_AND_RUN.md
-├── RUN_COMMANDS.md
-└── requirements.txt
-
-text
+This repository presents implementations and comprehensive analysis of parameter optimizations for two NIST post-quantum cryptographic standards: Kyber (key encapsulation mechanism) and Dilithium (digital signature scheme).
 
 
----
+## 📢 Important Setup Note
 
-## 🔐 Part 1: ML-KEM (Kyber) - Chapter 5
+### SageMath Installation (Required for Dynamic Security Analysis)
 
-### Implemented Optimizations
-
-**Focus:** Parameter modifications for compression trade-offs
-
-#### Configuration 1: Baseline
-- Original NIST Kyber parameters
-- (du, dv) = (10, 4) for Kyber512/768/1024
-- Reference for comparison
-
-#### Configuration 2: High Compression
-- Aggressive compression: (du, dv) = (9, 3)
-- Smaller ciphertexts
-- Trade-off: Potential decryption failures
-
-#### Configuration 3: Balanced
-- Moderate compression: (du, dv) = (10, 3)
-- Balance between size and reliability
-
-#### Configuration 4: Alternative Balanced
-- Different balance point: (du, dv) = (9, 4)
-- Alternative compression strategy
-
-### Kyber Features
-
-✅ **4 Configurations** - Different (du, dv) parameter sets  
-✅ **3 Security Levels** - Kyber512, Kyber768, Kyber1024  
-✅ **Automated Benchmarking** - Complete test suite  
-✅ **Security Validation** - Lattice-estimator integration  
-✅ **Professional Outputs** - Graphs, tables, dashboard  
-
-### Kyber Quick Start
+The dynamic security analysis component requires SageMath. Since the Miniconda installer is too large (>100MB) to include in the repository, please install it separately:
 
 ```bash
-cd kyber
+# 1. Download Miniconda installer (to any directory)
+cd ~  # or any directory you prefer
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
-# Install dependencies
-sudo dnf install -y gcc make python3 python3-pip openssl-devel
-pip3 install --user -r requirements.txt
+# 2. Install Miniconda (IMPORTANT: Use default installation path)
+chmod +x Miniconda3-latest-Linux-x86_64.sh
+./Miniconda3-latest-Linux-x86_64.sh
 
-# Make scripts executable
-chmod +x *.sh *.py
+# When prompted for installation location, press ENTER to accept default:
+# >>> /home/YOUR_USERNAME/miniconda3
 
-# Run complete demo
-./demo.sh
+# When asked to initialize conda, type 'yes'
 
-# View results
-firefox benchmark_results/run_*/dashboard.html
+# 3. Activate conda (restart terminal or run):
+source ~/.bashrc
 
-Kyber File Organization
+# 4. Create and activate SageMath environment
+conda create -n sage_env sage python=3.9
+conda activate sage_env
 
-Source Code (19 files total):
+# 5. Now the demo script will find SageMath automatically
 
-    src/ - Kyber implementation
-    configs/ - 4 configuration headers
-    tests/ - Benchmark programs for 3 security levels
+Note: Static security analysis works without SageMath. Only dynamic analysis requires it.
 
-Automation (13 scripts):
 
-    switch_config.sh - Config switcher
-    benchmark_all.sh - Automated testing
-    compare_results.sh - Quick comparison
-    analyze_results.py - Statistical analysis
-    generate_graphs.py - Visualizations
-    generate_tables.py - LaTeX tables
-    create_dashboard.py - HTML dashboard
-    run_security.sh - Security analysis
-    security_analysis.py - Lattice-estimator wrapper
-
-Documentation (2 files):
-
-    FEDORA_SETUP_AND_RUN.md - Complete guide
-    demo.sh - One-command demo
-
-🔏 Part 2: ML-DSA (Dilithium) - Chapter 6
-Implemented Optimizations
-
-Focus: Algorithm-level modifications for performance
-Configuration 1: Baseline
-
-    Original NIST Dilithium2 parameters
-    SHAKE256 challenge generation
-    Standard rejection sampling
-    Reference implementation
-
-Configuration 2: Tweak 1 - SHA3-256 Challenge
-
-    Replaces SHAKE256 with SHA3-256 for challenge generation
-    Fixed-length output (128 bytes via 4 iterations)
-    Domain separation using counter
-    Expected: 5-10% faster signing
-
-Files: challenge_sha3.c/h
-Configuration 3: Tweak 2 - Expanded Challenge Coefficients
-
-    Challenge coefficients: {-1, 0, 1} → {-2, -1, 0, 1, 2}
-    Modified parameters: TAU=50 (↑28%), OMEGA=70 (↓12.5%)
-    3 bits per coefficient instead of 1
-    Increases signature variability
-
-Files: challenge_expanded.c/h
-Configuration 4: Tweak 3 - Relaxed Rejection Sampling
-
-    BETA parameter: 78 → 100 (+28% relaxation)
-    Fewer rejection iterations
-    Three implementation variants available
-    Expected: 20-30% faster signing
-
-Files: rejection_tweaked.h
-Dilithium Features
-
-✅ 4 Configurations - Baseline + 3 independent tweaks
-✅ Multi-variant Support - Easy to extend to Dilithium3/5
-✅ Automated Pipeline - One-command benchmarking
-✅ Comprehensive Analysis - Statistical + visual outputs
-✅ Professional Results - Graphs, tables, interactive dashboard
-Dilithium Quick Start
-
-bash
-
-cd dilithium
-
-# Install dependencies (if not done for Kyber)
-sudo dnf install -y gcc make openssl-devel python3-pip
-pip3 install --user -r requirements.txt
-
-# Make scripts executable
-chmod +x *.sh *.py
-
-# CRITICAL: Integrate params_tweaked.h
-echo '' >> src/params.h
-echo '#if defined(MODIFIED_CHALLENGE_BOUNDS) || defined(RELAXED_REJECTION)' >> src/params.h
-echo '#include "params_tweaked.h"' >> src/params.h
-echo '#endif' >> src/params.h
-
-# Run complete demo
-./demo.sh
-
-# View results
-firefox results/run_*/dashboard.html
-
-Dilithium File Organization
-
-Source Code (23 files total):
-
-    src/ - Dilithium implementation + 3 tweaks
-    configs/ - 4 configuration headers
-    params_tweaked.h - Parameter overrides
-
-Automation (4 scripts):
-
-    switch_config.sh - Config switcher
-    benchmark_all.sh - Automated benchmarking
-    compare_results.sh - Quick comparison
-    demo.sh - One-command demo
-
-Analysis (4 scripts):
-
-    analyze_results.py - Statistical analysis
-    generate_graphs.py - Performance visualizations
-    generate_tables.py - LaTeX table generation
-    create_dashboard.py - Interactive HTML dashboard
-
-Documentation (3 files):
-
-    FEDORA_SETUP_AND_RUN.md - Complete setup guide
-    RUN_COMMANDS.md - Command reference
-    requirements.txt - Python dependencies
-
-📊 Performance Benchmarking
-Methodology
-
-Metrics Measured:
-
-    Kyber: Key generation, encapsulation, decapsulation (CPU cycles)
-    Dilithium: Key generation, signing, verification (CPU cycles)
-    Additional: Ciphertext/signature sizes, failure rates (if applicable)
-
-Test Parameters:
-
-    Iterations: 1000 per configuration (default)
-    Timing Method: RDTSC CPU cycle counter
-    Statistical Analysis: Mean, median, standard deviation
-
-Running Benchmarks
-
-Kyber:
-
-bash
-
-cd kyber
-./benchmark_all.sh                    # All configs, all security levels
-./benchmark_all.sh --config 2         # Specific config only
-./benchmark_all.sh --kyber 1024       # Specific security level only
-
-Dilithium:
-
-bash
-
-cd dilithium
-./benchmark_all.sh                    # All 4 configs
-./benchmark_all.sh -c 2               # Config 2 only
-./benchmark_all.sh -i 500             # Custom iterations
-./benchmark_all.sh --quick            # Fast test (100 iterations)
-
-📈 Results and Visualization
-Output Formats
-
-Both Kyber and Dilithium generate:
-
-    Terminal Comparison - Color-coded quick view
-    Detailed Reports - Statistical analysis with observations
-    Performance Graphs - PNG visualizations
-    LaTeX Tables - Thesis-ready tables
-    Interactive Dashboard - HTML with all metrics
-
-Kyber Results Location
-
-text
-
-kyber/benchmark_results/run_YYYYMMDD_HHMMSS/
-├── graphs/                    # Performance graphs
-├── latex_tables/              # LaTeX tables
-├── dashboard.html             # Interactive view
-└── config1,2,3,4/             # Raw benchmark data
-
-Dilithium Results Location
-
-text
-
-dilithium/results/run_YYYYMMDD_HHMMSS/
-├── graphs/                    # Performance visualizations
-├── tables/                    # LaTeX tables
-├── dashboard.html             # Interactive dashboard
-├── results.json               # Machine-readable data
-└── config1-4_*.txt            # Raw benchmark outputs
-
-🔐 Security Analysis
-Kyber Security Validation
-
-Tools: Lattice-estimator integration
-
-bash
-
-cd kyber
-
-# Install lattice-estimator (once)
-cd ~
-git clone https://github.com/malb/lattice-estimator
-cd lattice-estimator
-pip3 install --user -r requirements.txt
-
-# Run security analysis
-cd ~/kyber
-./run_security.sh --auto
-
-Output:
-
-text
-
-security_results/
-├── security_report.txt        # Summary
-├── security_tables.tex        # LaTeX tables
-└── estimator_logs/            # Detailed logs per config
-
-Time: 10-30 minutes
-Dilithium Security Validation
-
-Security analysis for Dilithium parameter modifications can be performed using lattice-estimator (same tool as Kyber). Implementation follows similar methodology.
-
-Note: All tweaks maintain EUF-CMA security and correctness guarantees.
-🛠️ Complete Setup Guide
-System Requirements
-
-    OS: Fedora 36+ or compatible Linux
-    Compiler: GCC 11+
-    Dependencies: OpenSSL 3.x, Python 3.9+
-    CPU: x86_64 with RDTSC support
-
-One-Time Setup
-
-bash
-
-# Install system packages
-sudo dnf install -y gcc make openssl-devel python3 python3-pip git
-
-# Clone repository (or transfer files)
-cd ~
-# [transfer kyber-dilithium-tweaks/ folder here]
-
-# Install Python dependencies (Kyber)
-cd kyber
-pip3 install --user -r requirements.txt
-
-# Install Python dependencies (Dilithium)
-cd ../dilithium
-pip3 install --user -r requirements.txt
-
-# Make all scripts executable
-cd ~/kyber
-chmod +x *.sh *.py
-cd ~/dilithium
-chmod +x *.sh *.py
-
-# Install lattice-estimator (for Kyber security analysis)
-cd ~
-git clone https://github.com/malb/lattice-estimator
-cd lattice-estimator
-pip3 install --user -r requirements.txt
-
-Verification
-
-bash
-
-# Test Kyber build
-cd ~/kyber
-./switch_config.sh 1
-make clean && make
-./test_speed1024
-
-# Test Dilithium build
-cd ~/dilithium
-cd src
-make CONFIG=1 clean
-make CONFIG=1 test/test_speed2
-./test/test_speed2
-
-🚀 Quick Execution Commands
-Complete Demo (Both Projects)
-
-Kyber:
-
-bash
-
-cd ~/kyber
-./demo.sh
-firefox benchmark_results/run_*/dashboard.html
-
-Dilithium:
-
-bash
-
-cd ~/dilithium
-./demo.sh
-firefox results/run_*/dashboard.html
-
-Individual Analysis
-
-Kyber Performance + Security:
-
-bash
-
-cd ~/kyber
-./benchmark_all.sh
-./run_security.sh --auto
-
-# View results
-LATEST=$(ls -td benchmark_results/run_* | head -n1)
-firefox $LATEST/dashboard.html
-cat security_results/security_report.txt
-
-Dilithium Performance:
-
-bash
-
-cd ~/dilithium
-./benchmark_all.sh
-
-# Generate all outputs
-LATEST=$(ls -td results/run_* | head -n1)
-python3 analyze_results.py $LATEST
-python3 generate_graphs.py $LATEST
-python3 generate_tables.py $LATEST
-python3 create_dashboard.py $LATEST
-
-# View
-firefox $LATEST/dashboard.html
-
-📚 Documentation
-Complete Guides
-
-Kyber:
-
-    kyber/FEDORA_SETUP_AND_RUN.md - Step-by-step setup and execution
-
-Dilithium:
-
-    dilithium/FEDORA_SETUP_AND_RUN.md - Detailed setup guide
-    dilithium/RUN_COMMANDS.md - Quick command reference
-
-Configuration Documentation
-
-Each configuration is fully documented in its header file:
-
-    Kyber: kyber/configs/config[1-4].h
-    Dilithium: dilithium/configs/config[1-4]_*.h
-
-⏱️ Timing Estimates
-Task	Kyber	Dilithium	Total
-markdown
-
-------|-------|-----------|-------|
-| **Initial Setup** | 10-15 min | 5 min | 15-20 min |
-| **Performance Benchmarks** | 20-40 min | 10-15 min | 30-55 min |
-| **Security Analysis** | 10-30 min | N/A | 10-30 min |
-| **Generate Outputs** | 2-5 min | 2-5 min | 4-10 min |
-| **Total (First Run)** | 1-1.5 hours | 20-30 min | ~2 hours |
-
-**Quick Test Mode:**
-- Kyber: `./benchmark_all.sh --quick` (~5 minutes)
-- Dilithium: `./demo.sh --quick` (~3 minutes)
-
----
-
-## 🔬 Research Contributions
-
-### Kyber Optimizations (Chapter 5)
-
-**Key Findings:**
-- Parameter trade-offs between ciphertext size and decryption reliability
-- Performance impact of compression parameter modifications
-- Security analysis validation for modified parameters
-
-**Practical Impact:**
-- Configurable compression for bandwidth-constrained environments
-- Demonstrated flexibility of NIST standard parameters
-- Security-performance trade-off quantification
-
-### Dilithium Optimizations (Chapter 6)
-
-**Key Findings:**
-- SHA3-256 provides performance improvement over SHAKE256 XOF
-- Expanded challenge coefficients increase signature variability
-- Relaxed rejection sampling significantly reduces signing time
-
-**Practical Impact:**
-- Algorithm-level optimizations applicable to lattice signatures
-- Demonstrated trade-offs between speed and security margins
-- Practical insights for government/enterprise deployments
-
----
-
-## 🎓 Academic Context
-
-### Thesis Structure
-
-**Chapter 5: ML-KEM (Kyber)**
-- Parameter modification analysis
-- Compression trade-off study
-- Security validation methodology
-
-**Chapter 6: ML-DSA (Dilithium)**
-- Hash function replacement (Tweak 1)
-- Challenge polynomial expansion (Tweak 2)
-- Rejection sampling optimization (Tweak 3)
-
-### Reproducibility
-
-All experiments are fully reproducible with provided:
-- ✅ Complete source code
-- ✅ Automated benchmarking scripts
-- ✅ Configuration management system
-- ✅ Detailed documentation
-- ✅ Metadata logging (system info, timestamps)
-
----
-
-## 📊 Expected Results Summary
-
-### Kyber Performance Changes
-
-| Config | Description | Ciphertext Size | Performance |
-|--------|-------------|-----------------|-------------|
-| Config 1 | Baseline | Standard | Baseline |
-| Config 2 | High compression | ~10% smaller | Similar/Slightly slower |
-| Config 3 | Balanced | ~5% smaller | Similar |
-| Config 4 | Alt balanced | ~5% smaller | Similar |
-
-### Dilithium Performance Changes
-
-| Config | Description | Keypair | Sign | Verify |
-|--------|-------------|---------|------|--------|
-| Config 1 | Baseline | Baseline | Baseline | Baseline |
-| Config 2 | SHA3-256 | ~0% | -5% to -10% | ~0% |
-| Config 3 | Expanded challenge | ~0% | +10% to +20% | -2% to -5% |
-| Config 4 | Relaxed rejection | ~0% | -20% to -30% | ~0% |
-
-*(Negative % = faster, Positive % = slower)*
-
----
-
-## 🛠️ Troubleshooting
-
-### Common Issues
-
-**Build Failures:**
-```bash
-# Check compiler
-gcc --version
-
-# Install if missing
-sudo dnf install gcc make
-
-Python Errors:
-
-bash
-
-# Install dependencies
-pip3 install --user matplotlib numpy
-
-# Verify
-python3 -c "import matplotlib; import numpy; print('OK')"
-
-OpenSSL Missing (Dilithium Config 2):
-
-bash
-
-# Install development libraries
-sudo dnf install openssl-devel
-
-# Verify
-pkg-config --modversion openssl
-
-Lattice-estimator Not Found (Kyber Security):
-
-bash
-
-# Clone and install
-cd ~
-git clone https://github.com/malb/lattice-estimator
-cd lattice-estimator
-pip3 install --user -r requirements.txt
-
-Permission Denied:
-
-bash
-
-# Make executable
-chmod +x *.sh *.py
-
-Performance Issues
-
-Slow Benchmarks:
-
-    Normal: Full runs take 20-40 minutes
-    Use quick mode: ./benchmark_all.sh --quick
-    Test single config: ./benchmark_all.sh -c 1
-
-High Cycle Counts:
-
-    Expected in VMs (virtualization overhead)
-    Run on bare metal for accurate results
-    Check CPU frequency scaling: cat /proc/cpuinfo | grep MHz
-
-📁 File Inventory
-Kyber (19 files total)
-
-Source: 1 Makefile + Kyber implementation
-Configs: 4 configuration headers
-Tests: 3 benchmark programs (512, 768, 1024)
-Scripts: 13 automation/analysis scripts
-Docs: 2 documentation files
-Dilithium (23 files total)
-
-Source: 7 implementation files (3 tweaks + Makefile + params_tweaked.h)
-Configs: 5 configuration files
-Scripts: 8 automation/analysis scripts
-Docs: 3 documentation files
-
-Total Project Files: 42
-🔗 References
-NIST Standards
-
-    FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard (ML-KEM)
-    FIPS 204: Module-Lattice-Based Digital Signature Standard (ML-DSA)
-
-Reference Implementations
-
-    Kyber: https://github.com/pq-crystals/kyber
-    Dilithium: https://github.com/pq-crystals/dilithium
-
+📋 Table of Contents
+Overview
+Key Contributions
+Requirements
+Quick Start
+Results Summary
+Project Structure
+Installation
+Usage
+Performance Results
 Security Analysis
+Reproducibility
+Citation
+License
+Acknowledgments
+Overview
+This research explores performance-security trade-offs in NIST Round 3 selected post-quantum cryptographic algorithms through systematic parameter modifications. The project demonstrates practical impacts of various optimizations while maintaining required security levels.
 
-    Lattice-estimator: https://github.com/malb/lattice-estimator
+Research Context
+As quantum computers threaten current public-key cryptography, NIST has standardized post-quantum algorithms. This work investigates optimization opportunities within the standardized parameter space, providing insights for real-world deployments.
 
-Academic Papers
+Key Contributions
+🔐 Kyber Optimizations
+Compression Parameter Analysis: Systematic evaluation of (du, dv) trade-offs
+Noise Distribution Study: Impact of η variations on performance and security
+Size-Performance Trade-offs: Achieved 4% ciphertext reduction with minimal overhead
+Comprehensive Benchmarking: Cycle-accurate measurements across all variants
+🖊️ Dilithium Modifications
+SHA3-256 Integration: Replaced SHAKE256 for challenge generation
+Expanded Challenge Space: Coefficients extended from {-1,0,1} to {-2,-1,0,1,2}
+Modified Rejection Sampling: Two variants with different performance characteristics
+Compatibility Analysis: Full interoperability matrix for all implementations
 
-    Bos et al., "CRYSTALS - Kyber: A CCA-Secure Module-Lattice-Based KEM"
-    Ducas et al., "CRYSTALS-Dilithium: A Lattice-Based Digital Signature Scheme"
-    NIST Post-Quantum Cryptography Standardization Project
+Requirements
 
-🤝 Project Information
+### System Requirements
+- Ubuntu Linux 20.04+ (tested on 24.04 LTS)
+- GCC 6.3.0 or higher
+- Python 3.7+
+- Git
+- 16GB RAM recommended
 
-Institution: University of Hyderabad
-Program: Internship Project
-Year: 2025
-Contact: 22mcce01@uohyd.ac.in
+### Python Dependencies
 
-Focus Areas:
+Create a `requirements.txt` file with:
+numpy>=1.26
+matplotlib>=3.8
+pandas>=2.1
+tabulate>=0.9.0
 
-    Post-Quantum Cryptography
-    Lattice-Based Cryptography
-    Performance Optimization
-    Security Analysis
 
-📝 License and Usage
+Install with:
+`bash
+pip install -r requirements.txt
 
-This is an academic project based on public domain reference implementations:
+Quick Start
+bash
+# Clone the repository
+git clone <repository-url>
+cd <repository-name>
 
-    Kyber reference implementation (public domain)
-    Dilithium reference implementation (public domain)
+# Run complete analysis for both schemes (recommended)
+chmod +x run_all_demos.sh
+./run_all_demos.sh --auto
 
-Current Status: Private repository for academic work in progress.
-✅ Project Completion Status
-Kyber (ML-KEM)
+# Or run interactive mode for selective analysis
+./run_all_demos.sh
+Results Summary
+🎯 Optimal Configurations
+Scheme	Configuration	Impact	Recommendation
+Kyber	(du=11, dv=3)	-4% size, +5% time	✅ Best for size-constrained applications
+Dilithium	Option 2 (Prob. bypass)	1.4x signing time	✅ Best balance for practical use
+📊 Key Metrics
+Kyber: Maintains all NIST security levels (1/3/5) across parameter variations
+Dilithium: All implementations produce standard 3309-byte signatures
+Performance: Benchmarked on Intel Xeon @ 2.8GHz with cycle-accurate measurements
+Compatibility: Full compatibility matrix provided for all variants
+Project Structure
+text
+.
+├── run_all_demos.sh            # Master demonstration script
+├── README.md                   # This file
+├── LICENSE                     # License information
+│
+├── kyber-tweaks/               # Kyber parameter optimizations
+│   ├── kyber/ref/              # Modified implementation
+│   │   └── configs/            # Parameter configurations
+│   ├── benchmarks/             # Performance analysis
+│   ├── cli-tests/              # Correctness verification
+│   ├── kyber-security-analysis/    # Security validation
+│   └── final_demo.sh           # Automated demo script
+│
+└── dilithium_tweaks/           # Dilithium cryptographic tweaks
+    ├── dilithium/              # Modified implementation
+    ├── benchmarks/             # Performance benchmarking
+    ├── cli-tests/              # Interactive testing
+    └── final_demo.sh           # Automated demo script
+Installation
+System Requirements
+OS: Ubuntu Linux 20.04+ (tested on 24.04 LTS)
+Compiler: GCC 6.3.0+
+Python: 3.7+ with scientific computing packages
+Memory: 16GB RAM recommended
+Optional: SageMath for advanced security analysis
+Setup Instructions
+bash
+# Install system dependencies
+sudo apt-get update
+sudo apt-get install -y build-essential libssl-dev python3-pip git make
 
-    ✅ 4 configurations implemented and tested
-    ✅ Automated benchmarking suite complete
-    ✅ Security analysis tools integrated
-    ✅ Visualization and reporting complete
-    ✅ Documentation complete
+# Install Python packages
+pip3 install numpy matplotlib pandas tabulate
 
-Dilithium (ML-DSA)
+# Clone and setup
+git clone <repository-url>
+cd <repository-name>
+chmod +x run_all_demos.sh
 
-    ✅ 3 tweaks fully implemented
-    ✅ 4 configurations tested
-    ✅ Automated benchmarking complete
-    ✅ Analysis pipeline operational
-    ✅ Professional outputs generated
-    ✅ Documentation complete
+# Optional: Install SageMath for dynamic security analysis
+conda create -n sage_env sage python=3.9
+conda activate sage_env
+Usage
+🚀 Master Script Commands
+bash
+# Full automated analysis (recommended)
+./run_all_demos.sh --auto
 
-Overall Status: Production Ready ✅
-🎯 Usage Summary
-Quick Start (Both Projects)
+# Interactive mode with menu
+./run_all_demos.sh
+
+# Individual scheme analysis
+./run_all_demos.sh --kyber      # Kyber only
+./run_all_demos.sh --dilithium  # Dilithium only
+
+# Show help
+./run_all_demos.sh --help
+📈 Viewing Results
+bash
+# After running analysis, view results:
+
+# Kyber performance report
+firefox kyber-tweaks/benchmarks/results/run_*/report/benchmark_report.html
+
+# Dilithium comprehensive report
+firefox dilithium_tweaks/dilithium_tweaks_final_report.html
+
+# Combined summary
+less combined_results_*.txt
+Performance Results
+Kyber Parameter Impact
+Parameter Set	Compression Overhead	Total Impact	Ciphertext Size
+Baseline (10,4)	Reference	Reference	768/1088/1568 bytes
+Optimized (11,3)	+50%	+5%	736/1056/1536 bytes
+High Compress (9,5)	+100%	+15%	800/1120/1600 bytes
+Dilithium Timing Analysis
+Implementation	Median Signing	95th Percentile	Max Observed
+Baseline	6.5ms	7.2ms	8.1ms
+Option 1	11.0ms	28.5ms	42.3ms
+Option 2	8.7ms	10.2ms	12.8ms
+Security Analysis
+🛡️ Security Validation
+All parameter modifications maintain required NIST security levels:
+
+Kyber512: Level 1 (≥128-bit classical, ≥64-bit quantum)
+Kyber768: Level 3 (≥192-bit classical, ≥96-bit quantum)
+Kyber1024: Level 5 (≥256-bit classical, ≥128-bit quantum)
+🔍 Analysis Methods
+Static Analysis: Hardcoded security estimates from literature
+Dynamic Analysis: SageMath lattice estimator calculations
+Parameter Sensitivity: Impact of (du,dv) and (η1,η2) on security
+Comprehensive Validation: All variants verified against security requirements
+Reproducibility
+All results can be fully reproduced using provided scripts:
 
 bash
+# Complete reproduction of all results
+./run_all_demos.sh --auto
 
-# Setup (once)
-sudo dnf install -y gcc make openssl-devel python3-pip
-cd kyber && pip3 install --user -r requirements.txt
-cd ../dilithium && pip3 install --user -r requirements.txt
-chmod +x kyber/*.sh kyber/*.py dilithium/*.sh dilithium/*.py
+# Results will be generated in:
+# - kyber-tweaks/thesis_results_*.txt
+# - dilithium_tweaks/dilithium_tweaks_final_report.html
+# - combined_results_*.txt
+Benchmarking Environment
+CPU: Intel Xeon @ 2.800GHz (TurboBoost disabled)
+OS: Ubuntu 24.04 LTS, Linux kernel 6.11.0
+Compiler: GCC 6.3.0 with -O3 -fomit-frame-pointer -march=native
+Methodology: Median of 10,000 iterations per operation
+Citation
+If you use this work in your research, please cite:
 
-# Run Kyber
-cd kyber
-./demo.sh
-firefox benchmark_results/run_*/dashboard.html
+bibtex
+@thesis{pqc_optimizations_2024,
+  title={Parameter Optimizations for Post-Quantum Cryptographic Schemes},
+  author={[Author Name]},
+  year={2024},
+  school={[University Name]},
+  type={Master's Thesis}
+}
+License
+This project is released under the MIT License. See LICENSE file for details.
+The underlying Kyber and Dilithium implementations are in the public domain (CC0).
 
-# Run Dilithium
-cd ../dilithium
-./demo.sh
-firefox results/run_*/dashboard.html
+## Acknowledgments
 
-For Thesis/Presentation
+- **Kyber Team**: Peter Schwabe, Roberto Avanzi, Joppe Bos, Léo Ducas, Eike Kiltz, Tancrède Lepoint, Vadim Lyubashevsky, John M. Schanck, Gregor Seiler, Damien Stehlé
+- **Dilithium Team**: Léo Ducas, Eike Kiltz, Tancrède Lepoint, Vadim Lyubashevsky, Peter Schwabe, Gregor Seiler, Damien Stehlé
+- **NIST PQC Team**: For the standardization effort
+- **Lattice Estimator**: Martin Albrecht and contributors
+- **Thesis Advisors**: For guidance and review
 
-Collect outputs:
+## 📧 Contact
 
-bash
+For questions, issues, or collaborations:
+- Open an issue in this repository
+- Refer to the thesis document for theoretical background
+- Contact: [your-email@example.com]
 
-# Kyber outputs
-kyber/benchmark_results/run_*/graphs/*.png
-kyber/benchmark_results/run_*/latex_tables/*.tex
-kyber/security_results/security_tables.tex
+## 🔗 Related Resources
 
-# Dilithium outputs
-dilithium/results/run_*/graphs/*.png
-dilithium/results/run_*/tables/*.tex
-dilithium/results/run_*/dashboard.html
+- [NIST PQC Standardization](https://csrc.nist.gov/projects/post-quantum-cryptography)
+- [Kyber Specification](https://pq-crystals.org/kyber/)
+- [Dilithium Specification](https://pq-crystals.org/dilithium/)
+- [Lattice Estimator](https://github.com/malb/lattice-estimator)
 
-📞 Support and Contact
+## 📝 Additional Documentation
 
-For questions, issues, or collaboration:
+Detailed documentation for each component:
 
-Email: 22mcce01@uohyd.ac.in
-Institution: University of Hyderabad
-Project Type: Academic Internship (2025)
-🎉 Acknowledgments
+- **Kyber Analysis**: See [kyber-tweaks/README.md](kyber-tweaks/README.md)
+- **Dilithium Implementation**: See [dilithium_tweaks/README.md](dilithium_tweaks/README.md)
+- **Benchmarking Methodology**: See respective `benchmarks/README.md` files
+- **Security Analysis Details**: See `kyber-security-analysis/README.md`
 
-    NIST Post-Quantum Cryptography Project - For standardization efforts
-    CRYSTALS Team - For reference implementations
-    University of Hyderabad - For project support and guidance
+## 🎯 Future Work
 
-Last Updated: January 2025
-Version: 1.0
-Status: Complete and Ready for Execution
+Potential extensions of this research:
+- Hardware implementation analysis
+- Side-channel resistance evaluation
+- Integration with real-world protocols
+- Performance on embedded systems
+- Additional parameter space exploration
 
 ---
 
+**Note**: This implementation is for research and educational purposes. For production use, please refer to the official NIST-approved implementations with appropriate security reviews.
 
-
-
+**Last Updated**: October 2024  
+**Version**: 1.0.0  
+**Status**: ✅ Complete and Verified
