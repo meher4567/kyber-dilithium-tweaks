@@ -101,73 +101,6 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 This project was completed as part of an internship under the guidance of Subba Rao (Supervisor), University of Hyderabad.
 
-## 📝 Citation
-
-If you use this work, please cite:
-
-```bibtex
-@thesis{pqc_optimizations_2024,
-  title={Parameter Optimizations for Post-Quantum Cryptographic Schemes},
-  author={Meher and Prajjwal Name and Ridham Name and Karthikeya Name},
-  year={2025},
-  school={University of Hyderabad}
-}
-```
-
-```bash
-# Full automated analysis with comprehensive reporting
-./run_all_demos.sh --auto
-
-# This will:
-# 1. Run all Kyber parameter variations (8 configurations)
-# 2. Execute Dilithium tweaks analysis (3 implementations)
-# 3. Generate performance benchmarks
-# 4. Create security analysis reports
-# 5. Produce combined summary with recommendations
-```
-
-### Individual Component Testing
-
-#### Kyber Analysis
-```bash
-cd kyber-tweaks
-
-# Interactive demonstration
-./final_demo.sh
-
-# Automated full analysis
-./final_demo.sh --auto
-
-# View detailed results
-firefox benchmarks/results/run_*/report/benchmark_report.html
-```
-
-#### Dilithium Testing
-```bash
-cd dilithium_tweaks
-
-# Run complete test suite
-./final_demo.sh
-
-# Generate comprehensive HTML report
-./generate_final_report.sh
-firefox dilithium_tweaks_final_report.html
-```
-
-### Custom Parameter Testing
-
-```bash
-# Test specific Kyber configuration
-cd kyber-tweaks/cli-tests
-./kyber_demo -q
-
-# Benchmark specific Dilithium variant
-cd dilithium_tweaks/benchmarks
-./benchmark_option2
-```
-
----
-
 ## 📈 Performance Analysis
 
 ### Benchmarking Methodology
@@ -297,22 +230,6 @@ This work corresponds to:
 
 ---
 
-## 📝 Citation
-
-If you use this work in your research, please cite:
-
-```bibtex
-@thesis{pqc_param_optimizations_2024,
-  title={Parameter Optimizations for Post-Quantum Cryptographic Schemes: 
-         A Comprehensive Analysis of Kyber and Dilithium},
-  year={2025},
-  school={University of Hyderabad},
-  type={Master's Thesis},
-  note={Implementation available at: https://github.com/meher4567/kyber-dilithium-tweaks}
-}
-```
-
----
 
 ## 📄 License and Acknowledgments
 
