@@ -40,7 +40,7 @@ Noise parameter impact:
    ✓ Keypair generated in 0.11 ms
 
 2. Encapsulating (creating ciphertext)...
-   ✓ Ciphertext created in 0.12 ms
+   ✓ Ciphertext created in 0.13 ms
    Ciphertext size: 768 bytes
 
 3. Decapsulating (recovering shared secret)...
@@ -48,13 +48,13 @@ Noise parameter impact:
 
 4. Verifying shared secrets match...
    ✓ SUCCESS: Shared secrets match!
-   Shared secret (first 16 bytes): 06051294 4520f83e 6b1c02bc 211d3eb2 
+   Shared secret (first 16 bytes): 833fbbef 473cb91a 628b685d 777fa223 
 
 5. Sample data visualization:
    Public key (first 32 bytes):
-   3ea01bd4 a0b2de49 5c275a59 71e84b14 4a17ea86 ac02754c b1464a97 2b824892
+   b3673c01 2ba3bdab 062ec85a d300c06e f54bf0fb 8f050ca5 4b29125e 014c8bac
    Ciphertext (first 32 bytes):
-   dad0e2f8 c03c6860 f2a07070 4fd707f9 658a840f 7f7c9c8e 7f979293 e70902cd
+   41404031 bc582909 992d230c 7fbf4a7e fd9f2377 5b78a1c5 9799b9a5 55920b97
 
 === Demo Complete ===
 This configuration demonstrates modified noise parameters (eta variations)

@@ -44,13 +44,13 @@ Based on compression parameters:
 
 4. Verifying shared secrets match...
    ✓ SUCCESS: Shared secrets match!
-   Shared secret (first 16 bytes): 3c25697f 9d56c4a6 d715a104 20d32cdb 
+   Shared secret (first 16 bytes): 72c523b5 63287898 4b3830ca b0eac22e 
 
 5. Sample data visualization:
    Public key (first 32 bytes):
-   f9568420 4723aa6a 0224036a f058c410 7ab75639 2d930726 25559420 52242dab
+   b319aee8 89c6f772 5e63a87d 5db31845 2a51381a a8dd93cb f1d318a1 dcc07cf8
    Ciphertext (first 32 bytes):
-   e288fceb 1cc0c493 654ef917 3e0f800f 07529bd7 50f7b4a6 214e81d3 a7e5e271
+   ef16a8f4 fd715d6e b2e9c515 90a865f6 b86e6ebc 8593c8a0 3a9a1923 784b84e1
 
 === Demo Complete ===
 This configuration demonstrates high compression (du=11, dv=3) with size reduction

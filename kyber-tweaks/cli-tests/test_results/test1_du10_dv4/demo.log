@@ -32,7 +32,7 @@ Based on compression parameters:
 === Running Kyber Demo ===
 
 1. Generating keypair...
-   ✓ Keypair generated in 0.11 ms
+   ✓ Keypair generated in 0.10 ms
 
 2. Encapsulating (creating ciphertext)...
    ✓ Ciphertext created in 0.11 ms
@@ -43,13 +43,13 @@ Based on compression parameters:
 
 4. Verifying shared secrets match...
    ✓ SUCCESS: Shared secrets match!
-   Shared secret (first 16 bytes): 01a58dc4 cc58c4c6 c081b654 df09c4d7 
+   Shared secret (first 16 bytes): f8afe4d2 4ebfc667 e582ce5c e22c45aa 
 
 5. Sample data visualization:
    Public key (first 32 bytes):
-   18784120 b82f68d0 6932321e fe50be5f 625884b5 00fd5811 d994b4ad 2c0a5349
+   56a49fce 6985c5a9 98ccd374 47768d4a 3768a547 147647a0 53fa01b2 a07eac3c
    Ciphertext (first 32 bytes):
-   343ac0ca 151db688 36460244 7606d1ec fe9d2907 8069ad9e 8496a7be 815fb516
+   459e5c56 af55ea80 1393beab c4d59598 58e48d6a c7010dfc 2c062424 b0564706
 
 === Demo Complete ===
 This configuration demonstrates standard Kyber parameters
