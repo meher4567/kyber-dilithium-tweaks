@@ -1,9 +1,9 @@
-Dilithium Cryptographic Tweaks Implementation
+## Dilithium Cryptographic Tweaks Implementation
 
 This repository contains an implementation of cryptographic tweaks to the Dilithium post-quantum digital signature scheme, demonstrating three variants with different performance/security trade-offs.
 
-Quick Start
-bash
+### Quick Start
+```bash
 # Clone and navigate to the project
 cd dilithium_tweaks
 
@@ -12,51 +12,63 @@ cd dilithium_tweaks
 
 # View results in your browser
 firefox benchmarks/benchmark_comprehensive_report.html
-What's Implemented
+```
+
+### What's Implemented
 Baseline: Original Dilithium-3 reference implementation
 Option 1: All tweaks with relaxed rejection bounds (2×BETA) - 1.7x slower
 Option 2: All tweaks with probabilistic bypass (10% acceptance) - 1.4x slower
 
-Cryptographic Tweaks
+### Cryptographic Tweaks
 SHA3-256 replaces SHAKE256 for challenge generation
 Challenge coefficients expanded from {-1,0,1} to {-2,-1,0,1,2}
 Modified rejection sampling (two variants)
-Directory Structure
-text
+
+### Directory Structure
+```text
 dilithium_tweaks/
 ├── dilithium/          # Core Dilithium implementation with tweaks
 ├── benchmarks/         # Performance benchmarking tools
 ├── cli-tests/          # Command-line testing tools
 ├── final_demo.sh       # Complete demonstration script
 └── generate_final_report.sh  # HTML report generator
-Basic Usage
-Run Complete Demo
-bash
+```
+
+### Basic Usage
+#### Run Complete Demo
+```bash
 ./final_demo.sh
+```
 This runs all tests, benchmarks, and generates a comprehensive report.
 
-Generate HTML Report
-bash
+#### Generate HTML Report
+```bash
 ./generate_final_report.sh
 firefox dilithium_tweaks_final_report.html
-Quick Test
-bash
+```
+
+#### Quick Test
+```bash
 cd cli-tests
 make -f Makefile.tweaks test_tweaks
-Requirements
+```
+
+### Requirements
 GCC compiler
 OpenSSL development libraries (libssl-dev)
 Make
 Linux/Unix environment
-bash
+```bash
 # Ubuntu/Debian
 sudo apt-get install build-essential libssl-dev
 
 # Fedora
 sudo dnf install gcc openssl-devel make
-Detailed Testing Walkthrough
+```
+
+### Detailed Testing Walkthrough
 1. Initial Setup and Compilation
-bash
+```bash
 # Navigate to the project directory
 cd /path/to/dilithium_tweaks
 
@@ -74,8 +86,9 @@ gcc -O3 -o benchmark_option2 benchmark_comprehensive.c ../dilithium/sign_tweaked
 
 cd ../cli-tests
 make -f Makefile.tweaks all
+```
 2. Verify Implementation
-bash
+```bash
 # Check that tweaks are implemented correctly
 cd ../dilithium
 
@@ -94,14 +107,16 @@ grep -n "BETA\*2" sign_tweaked.c
 # Verify Tweak 3 Option 2: Probabilistic bypass
 grep -n "bypass % 10" sign_tweaked_prob.c
 # Expected: Lines 166, 182
+```
 3. Run Individual Tests
 A. Core Dilithium Tests
-bash
+```bash
 cd dilithium
 ./test/test_dilithium3     # Test baseline implementation
 ./test/test_vectors3        # NIST test vectors
+```
 B. Benchmark Tests
-bash
+```bash
 cd ../benchmarks
 
 # Run baseline benchmark
@@ -115,8 +130,9 @@ cd ../benchmarks
 # Run Option 2 benchmark (moderate overhead)
 ./benchmark_option2
 # Expected: ~700k-800k cycles (1.2-1.4x slower)
+```
 C. CLI Interactive Tests
-bash
+```bash
 cd ../cli-tests
 
 # Generate a key pair
@@ -138,8 +154,9 @@ echo "Test message for Dilithium" > message.txt
 # Test cross-verification (should fail)
 ./cli_verify -i message.txt -s output/signatures/option1.sig -k output/keys/test_key.pk
 # Expected: INVALID SIGNATURE
+```
 4. Performance Analysis
-bash
+```bash
 # Run comprehensive benchmark (100 iterations)
 ./cli_benchmark_detailed
 
@@ -149,8 +166,9 @@ bash
 # Test with different message sizes
 ./cli_sign_baseline -i test_data/messages/short.txt -k output/keys/test_key.sk -o short.sig -m baseline
 ./cli_sign_baseline -i test_data/messages/large.txt -k output/keys/test_key.sk -o large.sig -m baseline
+```
 5. Generate Reports
-bash
+```bash
 # Go back to main directory
 cd ..
 
@@ -160,8 +178,9 @@ cd ..
 # View reports
 firefox dilithium_tweaks_final_report.html
 firefox benchmarks/benchmark_comprehensive_report.html
+```
 6. Automated Test Suite
-bash
+```bash
 # Run the complete automated demo
 ./final_demo.sh
 
@@ -170,7 +189,9 @@ cd cli-tests
 make -f Makefile.tweaks test_tweaks        # Basic functionality test
 make -f Makefile.tweaks test_performance   # Performance comparison
 make -f Makefile.tweaks benchmark          # Detailed benchmark
-Expected Results
+```
+
+### Expected Results
 Performance Impact:
 
 Baseline: ~6.5ms median signing time
@@ -188,26 +209,30 @@ Signer    | Baseline | Option 1 | Option 2
 Baseline  |    ✓     |    ✗     |    ✗
 Option 1  |    ✗     |    ✓     |    ✗
 Option 2  |    ✗     |    ✗     |    ✓
-Troubleshooting
+
+### Troubleshooting
 Compilation Errors:
 
-bash
+```bash
 # Missing OpenSSL headers
 sudo apt-get install libssl-dev
+```
 Performance Variations:
 
-bash
+```bash
 # Disable CPU frequency scaling for consistent results
 sudo cpupower frequency-set --governor performance
+```
 Verification Failures:
 
 Ensure matched signer/verifier pairs
 Check file paths are correct
 Verify key files exist
-Advanced Testing
+
+### Advanced Testing
 For researchers wanting to explore further:
 
-bash
+```bash
 # Modify rejection parameters
 vim dilithium/sign_tweaked.c
 # Change BETA*2 to BETA*3 for even more relaxed bounds
@@ -221,7 +246,9 @@ done
 # Generate performance profiles
 perf record ./benchmark_option1
 perf report
-Summary
+```
+
+### Summary
 This implementation successfully demonstrates cryptographic tweaks to Dilithium with measurable performance impacts while maintaining security properties. Option 2 (probabilistic bypass) provides the best balance of features and performance for practical applications.
 
 For detailed analysis, see the generated HTML reports and the thesis Chapter 6: "Tweaks to Dilithium".

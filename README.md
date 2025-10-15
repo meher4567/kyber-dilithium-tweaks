@@ -90,6 +90,17 @@ cat combined_results_*.txt
 
 MIT License - See [LICENSE](LICENSE) for details.
 
+## 👥 Authors and Affiliation
+
+- Meher Venkat Raman  (Student ID: 22MCCE01) — University of Hyderabad
+- Prajjwal (Student ID: 22MCCE20) — University of Hyderabad
+- Ridham Khurana (Student ID: 22MCCE09) — University of Hyderabad
+- Shiva Karthikeya (Student ID: 22MCCE26) — University of Hyderabad
+
+### Supervision
+
+This project was completed as part of an internship under the guidance of Subba Rao (Supervisor), University of Hyderabad.
+
 ## 📝 Citation
 
 If you use this work, please cite:
@@ -97,9 +108,9 @@ If you use this work, please cite:
 ```bibtex
 @thesis{pqc_optimizations_2024,
   title={Parameter Optimizations for Post-Quantum Cryptographic Schemes},
-  author={Your Name},
-  year={2024},
-  school={Your University}
+  author={Meher and Prajjwal Name and Ridham Name and Karthikeya Name},
+  year={2025},
+  school={University of Hyderabad}
 }
 ```
 
@@ -294,11 +305,10 @@ If you use this work in your research, please cite:
 @thesis{pqc_param_optimizations_2024,
   title={Parameter Optimizations for Post-Quantum Cryptographic Schemes: 
          A Comprehensive Analysis of Kyber and Dilithium},
-  author={[Your Name]},
-  year={2024},
-  school={[Your University]},
+  year={2025},
+  school={University of Hyderabad},
   type={Master's Thesis},
-  note={Implementation available at: https://github.com/[your-username]/[repo-name]}
+  note={Implementation available at: https://github.com/meher4567/kyber-dilithium-tweaks}
 }
 ```
 
@@ -327,8 +337,7 @@ We gratefully acknowledge:
 ### Contact
 
 - **Issues**: Open an issue in this repository
-- **Email**: [your-email@university.edu]
-- **Academic Profile**: [Your ORCID/Google Scholar]
+- **Email**: 22mcce01@uohyd.ac.in
 
 ---
 
@@ -529,6 +538,6 @@ If you find this work useful, please consider citing it in your research.
 </p>
 
 <p align="center">
-<i>Last Updated: October 2024 | Version 1.0.0</i>
+<i>Last Updated: October 2025 | Version 1.0.0</i>
 </p>
 ```

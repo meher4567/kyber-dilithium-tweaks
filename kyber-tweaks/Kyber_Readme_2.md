@@ -1,5 +1,5 @@
 
-Kyber Parameter Tweaks and Security Analysis - Complete Project Documentation
+## Kyber Parameter Tweaks and Security Analysis - Complete Project Documentation
 Table of Contents
 Project Overview
 Complete Project Structure
@@ -27,6 +27,7 @@ Key Features
 ✅ Visualization and reporting tools
 Complete Project Structure
 text
+```text
 kyber-tweaks/
 ├── kyber/
 │   └── ref/
@@ -83,6 +84,7 @@ kyber-tweaks/
     ├── sage-scripts/
     │   └── kyber_estimator.sage            # SageMath calculations
     └── results/
+```
 Installation and Setup
 System Requirements
 Ubuntu Linux (tested on 24.04.2 LTS)
@@ -92,7 +94,7 @@ Git
 SageMath (for dynamic security analysis)
 16GB RAM recommended
 Complete Setup Process
-bash
+```bash
 # 1. Create main project directory
 mkdir kyber-tweaks
 cd kyber-tweaks
@@ -123,6 +125,7 @@ pip install numpy matplotlib pandas tabulate
 
 # 8. Install SageMath (for security analysis)
 sudo apt install sagemath  # or use conda
+```
 Core Implementation
 Modified Source Files
 Note: Dynamic results show ~25-30 bits higher security due to updated lattice estimator algorithms.
@@ -161,46 +164,53 @@ test4_eta_variations: PASSED
 
 Quick Start Guide
 1. Basic Parameter Test
-bash
+```bash
 # From kyber/ref directory
 cp configs/params_test2_du11_dv3.h params.h
 make clean && make speed
 ./test_speed512
+```
 2. Complete Benchmark Run
-bash
+```bash
 cd benchmarks
 ./run_cycle_counts.sh
 python3 analyze_results.py | grep -A20 "Table 5.1"
+```
 3. Interactive Demo
-bash
+```bash
 cd cli-tests
 ./kyber_demo
+```
 4. Security Check
-bash
+```bash
 cd kyber-security-analysis
 python3 scripts/kyber_security_analysis.py
+```
 Troubleshooting
 Common Issues and Solutions
 1. Build Errors
-bash
+```bash
 # Missing compression cases in poly.c
 Error: KYBER_POLYCOMPRESSEDBYTES needs to be in {96, 128, 160, 192, 200}
 
 # Solution: Ensure all cases are added before #else in poly.c
+```
 2. CBD Function Errors
-bash
+```bash
 # Undefined cbd4 or cbd5
 Error: implicit declaration of function 'cbd4'
 
 # Solution: Remove conditional compilation guards in cbd.c
+```
 3. Path Issues
-bash
+```bash
 # Config file not found
 cp: cannot stat 'configs/params_test1_du10_dv4.h': No such file or directory
 
 # Solution: Check you're in correct directory (kyber/ref)
+```
 4. SageMath Issues
-bash
+```bash
 # SageMath not found
 Error: SageMath not found!
 
@@ -208,15 +218,17 @@ Error: SageMath not found!
 sudo apt install sagemath
 # or
 conda create -n sage_env sage python=3.9
+```
 5. Python Module Issues
-bash
+```bash
 # Missing Python modules
 ModuleNotFoundError: No module named 'tabulate'
 
 # Solution:
 pip install tabulate numpy matplotlib pandas
+```
 Verification Commands
-bash
+```bash
 # Verify all config files exist
 ls kyber/ref/configs/params_*.h | wc -l  # Should be 9
 
@@ -231,9 +243,10 @@ cd cli-tests
 # Check benchmark results
 cd benchmarks
 ls results/run_*/test*/kyber512.txt | wc -l  # Should match number of tests
+```
 Advanced Usage
 Custom Parameter Testing
-bash
+```bash
 # Create custom configuration
 cat > kyber/ref/configs/params_custom.h << EOF
 // Custom parameters
@@ -245,8 +258,9 @@ EOF
 # Test custom configuration
 cd benchmarks
 ./run_cycle_counts.sh  # Will pick up new config
+```
 Batch Performance Analysis
-bash
+```bash
 # Test multiple compression parameters
 for du in 9 10 11 12; do
     for dv in 3 4 5 6; do
@@ -254,8 +268,9 @@ for du in 9 10 11 12; do
         echo "Testing du=$du, dv=$dv"
     done
 done
+```
 Automated Reporting
-bash
+```bash
 # Generate complete thesis-ready report
 cd benchmarks
 ./run_cycle_counts.sh
@@ -263,49 +278,61 @@ python3 analyze_results.py > thesis_tables.txt
 ./generate_report.sh
 cd results/run_*/report
 firefox benchmark_report.html
+```
 Project Workflow
 Complete Testing Workflow
 Setup and Build
-bash
+```bash
 cd kyber/ref
 make clean && make
+```
 Run Benchmarks
-bash
+```bash
 cd ../../benchmarks
 ./run_cycle_counts.sh
+```
 Test Correctness
-bash
+```bash
 cd ../cli-tests
 ./scripts/test_all_params.sh
+```
 Analyze Security
-bash
+```bash
 cd ../kyber-security-analysis
 ./run_all_analysis.sh
+```
 Generate Reports
-bash
+```bash
 cd ../benchmarks
 ./generate_report.sh
 python3 analyze_results.py
+```
 Expected Outputs
 Benchmark Results Format
 text
+```text
 poly_compress:
   median: 308 cycles/ticks
   average: 312 cycles/ticks
+```
 CLI Test Output
 text
+```text
 Testing: baseline_standard
 Building... ✓
 Generating keys... ✓
 Encrypting... ✓
 Decrypting... ✓
 Verifying... ✓ Shared secrets match!
+```
 Security Analysis Output
 text
+```text
 Kyber512 Security Analysis:
   Primal attack complexity: 144 bits
   Dual attack complexity: 143 bits
   Security level: 128 bits (Level 1)
+```
 References and Resources
 Kyber Specification: https://pq-crystals.org/kyber/
 NIST PQC: https://csrc.nist.gov/projects/post-quantum-cryptography
