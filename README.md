@@ -1,10 +1,8 @@
-Post-Quantum Cryptographic Parameter Optimizations
-License: MIT
-Ubuntu
-Python
+# Post-Quantum Cryptographic Parameter Optimizations
+
+**License**: MIT | **Platform**: Ubuntu | **Language**: Python
 
 This repository presents implementations and comprehensive analysis of parameter optimizations for two NIST post-quantum cryptographic standards: Kyber (key encapsulation mechanism) and Dilithium (digital signature scheme).
-
 
 ## 📢 Important Setup Note
 
@@ -34,44 +32,49 @@ conda create -n sage_env sage python=3.9
 conda activate sage_env
 
 # 5. Now the demo script will find SageMath automatically
+```
 
-Note: Static security analysis works without SageMath. Only dynamic analysis requires it.
+> **Note**: Static security analysis works without SageMath. Only dynamic analysis requires it.
 
+## 📋 Table of Contents
 
-📋 Table of Contents
-Overview
-Key Contributions
-Requirements
-Quick Start
-Results Summary
-Project Structure
-Installation
-Usage
-Performance Results
-Security Analysis
-Reproducibility
-Citation
-License
-Acknowledgments
-Overview
+- [Overview](#overview)
+- [Key Contributions](#key-contributions)
+- [Requirements](#requirements)
+- [Quick Start](#quick-start)
+- [Results Summary](#results-summary)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Performance Results](#performance-results)
+- [Security Analysis](#security-analysis)
+- [Reproducibility](#reproducibility)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+
+## Overview
+
 This research explores performance-security trade-offs in NIST Round 3 selected post-quantum cryptographic algorithms through systematic parameter modifications. The project demonstrates practical impacts of various optimizations while maintaining required security levels.
 
-Research Context
+### Research Context
+
 As quantum computers threaten current public-key cryptography, NIST has standardized post-quantum algorithms. This work investigates optimization opportunities within the standardized parameter space, providing insights for real-world deployments.
 
-Key Contributions
-🔐 Kyber Optimizations
-Compression Parameter Analysis: Systematic evaluation of (du, dv) trade-offs
-Noise Distribution Study: Impact of η variations on performance and security
-Size-Performance Trade-offs: Achieved 4% ciphertext reduction with minimal overhead
-Comprehensive Benchmarking: Cycle-accurate measurements across all variants
-🖊️ Dilithium Modifications
-SHA3-256 Integration: Replaced SHAKE256 for challenge generation
-Expanded Challenge Space: Coefficients extended from {-1,0,1} to {-2,-1,0,1,2}
-Modified Rejection Sampling: Two variants with different performance characteristics
-Compatibility Analysis: Full interoperability matrix for all implementations
+## Key Contributions
 
-Requirements
+### 🔐 Kyber Optimizations
+- **Compression Parameter Analysis**: Systematic evaluation of (du, dv) trade-offs
+- **Noise Distribution Study**: Impact of η variations on performance and security
+- **Size-Performance Trade-offs**: Achieved 4% ciphertext reduction with minimal overhead
+- **Comprehensive Benchmarking**: Cycle-accurate measurements across all variants
+
+### 🖊️ Dilithium Modifications
+- **SHA3-256 Integration**: Replaced SHAKE256 for challenge generation
+- **Expanded Challenge Space**: Coefficients extended from {-1,0,1} to {-2,-1,0,1,2}
+- **Modified Rejection Sampling**: Two variants with different performance characteristics
+- **Compatibility Analysis**: Full interoperability matrix for all implementations
+
+## Requirements
 
 ### System Requirements
 - Ubuntu Linux 20.04+ (tested on 24.04 LTS)
@@ -83,18 +86,23 @@ Requirements
 ### Python Dependencies
 
 Create a `requirements.txt` file with:
+
+```
 numpy>=1.26
 matplotlib>=3.8
 pandas>=2.1
 tabulate>=0.9.0
-
+```
 
 Install with:
-`bash
-pip install -r requirements.txt
 
-Quick Start
-bash
+```bash
+pip install -r requirements.txt
+```
+
+## Quick Start
+
+```bash
 # Clone the repository
 git clone <repository-url>
 cd <repository-name>
